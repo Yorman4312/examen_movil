@@ -1,57 +1,40 @@
-// main.dart
+// ventas_main.dart
 
-import 'package:examen_movil/Login/Login_screen.dart';
-import 'package:examen_movil/compras/pages/compras_pages.dart';
-import 'package:examen_movil/sebastian/dashboard.dart';
 import 'package:examen_movil/yorman/ventas/components/header.dart';
 import 'package:examen_movil/yorman/ventas/components/menu.dart';
 import 'package:examen_movil/yorman/ventas/components/venta_card.dart';
 import 'package:examen_movil/yorman/ventas/pages/ventas_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
+// — Entry point ejecutable
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-    ),
-  );
-  runApp(const MainApp());
+  runApp(const VentasApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class VentasApp extends StatelessWidget {
+  const VentasApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFF5F5F5),
-        fontFamily: 'Roboto',
-      ),
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/home':  (context) => const AppShell(),
-      },
+      home: VentasMain(),
     );
   }
 }
 
-class AppShell extends StatefulWidget {
-  const AppShell({super.key});
+// — Orquestador del módulo
+class VentasMain extends StatefulWidget {
+  const VentasMain({super.key});
 
   @override
-  State<AppShell> createState() => _AppShellState();
+  State<VentasMain> createState() => _VentasMainState();
 }
 
-class _AppShellState extends State<AppShell> {
-  MenuTab _tabActivo = MenuTab.inicio;
+class _VentasMainState extends State<VentasMain> {
+  MenuTab _tabActivo = MenuTab.ventas;
 
+  // — Data de prueba basada en las capturas
   final List<VentaModel> _ventas = const [
     VentaModel(
       numeroVenta: '382749105',
@@ -99,51 +82,14 @@ class _AppShellState extends State<AppShell> {
     ),
   ];
 
-  final List<CompraModel> _compras = const [
-    CompraModel(
-      proveedor: 'Papelería el punto escolar',
-      nroFactura: '12345455',
-      cantidadProductos: '8',
-      fecha: '05/03/2025',
-      total: '\$ 1.000.000',
-      completada: true,
-    ),
-    CompraModel(
-      proveedor: 'Ofiexpress Ltda.',
-      nroFactura: '765432111',
-      cantidadProductos: '5',
-      fecha: '05/02/2025',
-      total: '\$ 300.000',
-      completada: false,
-    ),
-    CompraModel(
-      proveedor: 'Papelería el punto escolar',
-      nroFactura: '12345421',
-      cantidadProductos: '8',
-      fecha: '05/01/2025',
-      total: '\$ 1.000.000',
-      completada: true,
-    ),
-    CompraModel(
-      proveedor: 'Arte color suppliers',
-      nroFactura: '92395421',
-      cantidadProductos: '9',
-      fecha: '05/01/2025',
-      total: '\$ 3.000.000',
-      completada: false,
-    ),
-  ];
-
   Widget _buildBody() {
     switch (_tabActivo) {
-      case MenuTab.inicio:
-        return const DashboardScreen();
       case MenuTab.ventas:
         return VentasPage(ventas: _ventas);
+      case MenuTab.inicio:
       case MenuTab.compras:
-        return ComprasPage(compras: _compras);
       case MenuTab.ajustes:
-        return const _PlaceholderView(label: 'AJUSTES');
+        return const _PlaceholderView();
     }
   }
 
@@ -154,13 +100,18 @@ class _AppShellState extends State<AppShell> {
       body: SafeArea(
         child: Column(
           children: [
+            // — Header
             VentasHeader(
               nombreUsuario: 'Sebastian B',
               rol: 'Administrador',
               onSearch: () {},
               onNotifications: () {},
             ),
+
+            // — Contenido según tab activo
             Expanded(child: _buildBody()),
+
+            // — Menú inferior
             VentasMenu(
               tabActivo: _tabActivo,
               onTabSeleccionado: (tab) {
@@ -174,16 +125,16 @@ class _AppShellState extends State<AppShell> {
   }
 }
 
+// — Placeholder para tabs no implementados
 class _PlaceholderView extends StatelessWidget {
-  final String label;
-  const _PlaceholderView({required this.label});
+  const _PlaceholderView();
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text(
-        label,
-        style: const TextStyle(
+        'Próximamente',
+        style: TextStyle(
           fontSize: 14,
           color: Color(0xFF9E9E9E),
         ),
