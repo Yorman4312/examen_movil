@@ -1,6 +1,7 @@
+// dashboard.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'widgets/app_header.dart';
 import 'widgets/kpi_cards.dart';
 import 'widgets/top_clients_chart.dart';
 import 'widgets/ventas_chart.dart';
@@ -43,50 +44,40 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F7FA),
-      body: Column(
-        children: [
-          const AppHeader(),
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  // ── KPIs ─────────────────────────────────────────
-                  Text('GRAFICAS ACTUALES',
-                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700,
-                          color: Color(0xFF1565C0), letterSpacing: 1.3)),
-                  SizedBox(height: 14),
-                  KpiCards(),
-                  SizedBox(height: 12),
-                  TopClientsChart(),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            // ── KPIs ──────────────────────────────────────────
+            Text('GRAFICAS ACTUALES',
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700,
+                    color: Color(0xFF1565C0), letterSpacing: 1.3)),
+            SizedBox(height: 14),
+            KpiCards(),
+            SizedBox(height: 12),
+            TopClientsChart(),
 
-                  SizedBox(height: 24),
+            SizedBox(height: 24),
 
-                  // ── Ventas ────────────────────────────────────────
-                  Text('ANÁLISIS DE VENTAS',
-                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700,
-                          color: Color(0xFF1565C0), letterSpacing: 1.3)),
-                  SizedBox(height: 14),
-                  VentasChart(),
-                  SizedBox(height: 12),
-                  CategoriasChart(),
-                  SizedBox(height: 12),
-                  TopProductosChart(),
-                ],
-              ),
-            ),
-          ),
-        ],
+            // ── Ventas ────────────────────────────────────────
+            Text('ANÁLISIS DE VENTAS',
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700,
+                    color: Color(0xFF1565C0), letterSpacing: 1.3)),
+            SizedBox(height: 14),
+            VentasChart(),
+            SizedBox(height: 12),
+            CategoriasChart(),
+            SizedBox(height: 12),
+            TopProductosChart(),
+          ],
+        ),
       ),
-     
     );
   }
 }
