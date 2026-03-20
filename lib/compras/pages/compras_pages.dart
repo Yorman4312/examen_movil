@@ -46,12 +46,45 @@ class ComprasPage extends StatelessWidget {
             ),
           ),
 
-          // — Lista de cards
+          // — Lista de cards + botón Ver Más
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.only(bottom: 16),
-              itemCount: compras.length,
+              itemCount: compras.length + 1, // — +1 para el botón al final
               itemBuilder: (context, index) {
+                // — Último ítem: botón Ver Más
+                if (index == compras.length) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // TODO: implementar paginación
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF1B3A6B),
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: const Text(
+                          'Ver Más...',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+
+                // — Cards normales
                 final compra = compras[index];
                 return CompraCard(
                   proveedor: compra.proveedor,
